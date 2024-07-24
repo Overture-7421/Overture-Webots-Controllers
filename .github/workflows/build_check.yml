@@ -40,11 +40,36 @@ jobs:
           name: ${{ matrix.artifact-name }}
           path: build/exe/nt_robot_controller/release
 
-  combine:
-    name: Combine
+  update_controllers:
+    name: Update controllers on Overture-Webots
     needs: [build-host]
+    only:
+      refs:
+        - main
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
         with:
-          path: combiner/executables
+          path: executables
+      - name: Clone Overture Webots
+        run: |
+          git clone https://github.com/Overture-7421/Overture-Webots.git --depth 1
+      - name : Set up git
+        run: |
+          cd Overture-Webots
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+    - name: Copy artifacts
+        run: cp -r executables/ Overture-Webots/controllers/nt_robot_controller
+    - name: Commit
+        run: |
+          cd Overture-Webots
+          git add .
+          git commit -m "Update controllers to latest version"
+
+    - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          repository: overture-7421/Overture-Webots
+          github_token: ${{ secrets.ACCESS_TOKEN }}
+          directory: Overture-Webots
