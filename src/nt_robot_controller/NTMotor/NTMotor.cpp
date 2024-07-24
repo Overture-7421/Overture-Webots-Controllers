@@ -5,6 +5,11 @@ NTMotor::NTMotor(Robot *robot, const NTMotor::Config &config) {
 	std::string modelName = robot->getName();
 	motor = robot->getMotor(config.Name);
 
+	if (motor == nullptr) {
+		throw std::runtime_error(
+				"Motor with name \"" + config.Name + "\" was not found!!!");
+	}
+
 	timeStep = robot->getBasicTimeStep();
 
 	if (config.Model == "Kraken") {
@@ -40,7 +45,6 @@ NTMotor::NTMotor(Robot *robot, const NTMotor::Config &config) {
 	const auto ntable =
 			ntInst.GetTable(robot->getName())->GetSubTable("motors")->GetSubTable(
 					jointName.str());
-
 	encoderSpeedEntry = ntable->GetDoubleTopic("encoder_speed").Publish();
 	encoderPositionEntry = ntable->GetDoubleTopic("encoder_position").Publish();
 	currentEntry = ntable->GetDoubleTopic("current").Publish();
@@ -54,11 +58,12 @@ NTMotor::NTMotor(Robot *robot, const NTMotor::Config &config) {
 	encoderPositionEntry.Set(0);
 	currentEntry.Set(0);
 	torqueAppliedEntry.Set(0);
-	posSensor = motor->getPositionSensor();
 
+	posSensor = motor->getPositionSensor();
 	if (posSensor == nullptr) {
 		throw std::runtime_error("Didnt get a position sensor");
 	}
+
 	posSensor->enable(robot->getBasicTimeStep() / 2.0);
 }
 

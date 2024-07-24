@@ -11,7 +11,6 @@ int main(int argc, char **argv) {
 	Robot *robot = new Robot();
 
 	auto ntInst = nt::NetworkTableInstance::GetDefault();
-
 	ntInst.SetServer("localhost");
 	std::stringstream ntIdentity;
 	ntIdentity << "nt_webots_controller";
@@ -26,6 +25,7 @@ int main(int argc, char **argv) {
 	for (int i = 1; i < argc; i++) {
 		try {
 			j = nlohmann::json::parse(argv[i]);
+
 			if (j.at("type") == "motor") {
 				NTMotor::Config conf = j.at("value").template get<
 						NTMotor::Config>();
@@ -41,7 +41,9 @@ int main(int argc, char **argv) {
 	double t = 0.0;
 
 	while (robot->step(timeStep) != -1) {
+
 		worldTelemetry.Update(t);
+
 		if (!initialized) {
 			for (auto &motor : motors) {
 				motor.Init();

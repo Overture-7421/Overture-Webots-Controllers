@@ -29,7 +29,7 @@ jobs:
           architecture: ${{ matrix.architecture }}
 
       - name: Build with Gradle
-        run: ./gradlew nt_robot_controllerReleaseExecutable
+        run: ./gradlew nt_robot_controllerReleaseExecutable -PreleaseMode 
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
