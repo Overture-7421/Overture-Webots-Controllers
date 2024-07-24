@@ -1,10 +1,6 @@
 name: Build Check
 
-on: 
-  push:
-    branches-ignore:
-      - main
-  pull_request:
+on: [push, pull_request]
 
 jobs:
   build-host:
