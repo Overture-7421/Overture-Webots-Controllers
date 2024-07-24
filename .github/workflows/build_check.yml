@@ -32,4 +32,4 @@ jobs:
           architecture: ${{ matrix.architecture }}
 
       - name: Build with Gradle
-        run: ./gradlew build -Pbuildalldesktop -PreleaseMode 
+        run: ./gradlew nt_robot_controllerReleaseExecutable
