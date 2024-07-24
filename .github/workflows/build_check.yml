@@ -61,14 +61,14 @@ jobs:
         run: |
           find executables -type f -exec mv -i '{}' Overture-Webots/controllers/nt_robot_controller/ ';'
       - name: Commit
-          run: |
-            cd Overture-Webots
-            git add .
-            git commit -m "Update controllers to latest version"
+        run: |
+          cd Overture-Webots
+          git add .
+          git commit -m "Update controllers to latest version"
 
       - name: Push changes
-          uses: ad-m/github-push-action@master
-          with:
-            repository: overture-7421/Overture-Webots
-            github_token: ${{ secrets.ACCESS_TOKEN }}
-            directory: Overture-Webots
+        uses: ad-m/github-push-action@master
+        with:
+          repository: overture-7421/Overture-Webots
+          github_token: ${{ secrets.ACCESS_TOKEN }}
+          directory: Overture-Webots
