@@ -40,7 +40,7 @@ model {
                     linker.args "/LIBPATH:${webotsHome}/lib/msys", 'controller.lib', 'car.lib', 'driver.lib'
                 } else if (targetPlatform.contains('macos')) {
                     cppCompiler.args "-Wno-error=ignored-qualifiers", "-Wno-error=array-parameter"
-                    linker.args "-L${webotsHome}/lib/arm64", '-lController', '-lCppController', '-lCppCar', '-lCppDriver'
+                    linker.args "-L${webotsHome}/lib/darwin20", '-lController', '-lCppController', '-lCppCar', '-lCppDriver'
                 }else {
                     cppCompiler.args "-Wno-error=ignored-qualifiers", "-Wno-error=array-parameter"
                     linker.args "-L${webotsHome}/lib/linux-gnu", '-lController', '-lCppController', '-lCppCar', '-lCppDriver'
@@ -73,7 +73,7 @@ model {
                     linker.args "/LIBPATH:${webotsHome}/lib/msys", 'controller.lib', 'car.lib', 'driver.lib'
                 } else if (targetPlatform.contains('macos')) {
                     cppCompiler.args "-Wno-error=ignored-qualifiers", "-Wno-error=array-parameter"
-                    linker.args "-L${webotsHome}/lib/arm64", '-lController', '-lCppController', '-lCppCar', '-lCppDriver'
+                    linker.args "-L${webotsHome}/lib/darwin20", '-lController', '-lCppController', '-lCppCar', '-lCppDriver'
                 }else {
                     cppCompiler.args "-Wno-error=ignored-qualifiers", "-Wno-error=array-parameter"
                     linker.args "-L${webotsHome}/lib/linux-gnu", '-lController', '-lCppController', '-lCppCar', '-lCppDriver'
