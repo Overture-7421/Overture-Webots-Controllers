@@ -5,6 +5,7 @@
 #include "NTController.h"
 #include "NTMotor/NTMotor.h"
 #include "NTCanCoder/NTCANCoder.h"
+#include "NTIMU/NTIMU.h"
 #include "NTWorldTelemetry/NTWorldTelemetry.h"
 
 using namespace webots;
@@ -36,6 +37,10 @@ int main(int argc, char **argv) {
 				NTCANCoder::Config conf = j.at("value").template get<
 						NTCANCoder::Config>();
 				controllers.emplace_back(std::make_shared<NTCANCoder>(robot, conf));
+			}else if(type == "imu") {
+				NTIMU::Config conf = j.at("value").template get<
+						NTIMU::Config>();
+				controllers.emplace_back(std::make_shared<NTIMU>(robot, conf));
 			}
 		} catch (const std::exception &e) {
 			std::cerr << e.what() << std::endl;

@@ -7,7 +7,7 @@ NTCANCoder::NTCANCoder(Robot *robot, const Config &config) {
 	timeStep = robot->getBasicTimeStep();
 
 	if(sensor == nullptr) {
-		throw std::runtime_error("Motor with name \"" + config.Name + "\" was not found!!!");
+		throw std::runtime_error("CanCoder with name \"" + config.Name + "\" was not found!!!");
 	}
 
 	ntInst = nt::NetworkTableInstance::GetDefault();
