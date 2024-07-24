@@ -39,8 +39,7 @@ jobs:
         with:
           name: ${{ matrix.artifact-name }}
           path: build/exe/nt_robot_controller/release
-
-  update_controllers:
+  update-controllers:
     name: Update controllers on Overture-Webots
     needs: [build-host]
     only:
