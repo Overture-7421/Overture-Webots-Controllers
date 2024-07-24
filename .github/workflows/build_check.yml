@@ -58,6 +58,7 @@ jobs:
         run: |
           mkdir -p Overture-Webots/controllers/nt_robot_controller/
           rm Overture-Webots/controllers/nt_robot_controller/*
+          find executables -type f -exec chmod +x '{}' ';'
           find executables -type f -exec mv -i '{}' Overture-Webots/controllers/nt_robot_controller/ ';'
       - name: Commit
         run: |
