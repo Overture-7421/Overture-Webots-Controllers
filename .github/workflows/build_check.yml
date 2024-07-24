@@ -15,7 +15,7 @@ jobs:
             artifact-name: macOS
             architecture: x64
           - os: ubuntu-latest
-            artifact-name: macOS
+            artifact-name: linux
             architecture: x64
     name: "Build - ${{ matrix.artifact-name }}"
     runs-on: ${{ matrix.os }}
