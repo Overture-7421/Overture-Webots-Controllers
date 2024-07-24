@@ -8,11 +8,12 @@
 #include <webots/Motor.hpp>
 #include <webots/PositionSensor.hpp>
 #include <webots/Robot.hpp>
-#include <iostream>
 #include <nlohmann/json.hpp>
+#include "../NTController.h"
+
 using namespace webots;
 
-class NTMotor {
+class NTMotor : public NTController{
 public:
 	struct Config {
 		std::string Name;
@@ -24,10 +25,8 @@ public:
 	};
 
 	NTMotor(Robot *robot, const Config &config);
-	void Init();
-
-	void Update();
-
+	void Init() override;
+	void Update() override;
 private:
 	frc::DCMotor motorModel = frc::DCMotor(0_V, 0_Nm, 0_A, 0_A, 0_rad_per_s);
 	Motor *motor;

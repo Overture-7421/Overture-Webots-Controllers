@@ -1,5 +1,6 @@
 #include "NTMotor.h"
 #include <sstream>
+#include <iostream>
 
 NTMotor::NTMotor(Robot *robot, const NTMotor::Config &config) {
 	std::string modelName = robot->getName();
@@ -115,7 +116,6 @@ void to_json(nlohmann::json &j, const NTMotor::Config &c) {
 					"count", c.MotorCount }, { "mechanically_inverted",
 					c.MechanicallyInverted } };
 }
-;
 
 void from_json(const nlohmann::json &j, NTMotor::Config &c) {
 	j.at("name").get_to(c.Name);
@@ -125,4 +125,3 @@ void from_json(const nlohmann::json &j, NTMotor::Config &c) {
 	j.at("count").get_to(c.MotorCount);
 	j.at("mechanically_inverted").get_to(c.MechanicallyInverted);
 }
-;

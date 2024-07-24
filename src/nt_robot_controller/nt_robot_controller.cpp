@@ -2,7 +2,9 @@
 #include <networktables/NetworkTableInstance.h>
 #include <nlohmann/json.hpp>
 #include <sstream>
+#include "NTController.h"
 #include "NTMotor/NTMotor.h"
+#include "NTCanCoder/NTCANCoder.h"
 #include "NTWorldTelemetry/NTWorldTelemetry.h"
 
 using namespace webots;
@@ -19,22 +21,25 @@ int main(int argc, char **argv) {
 	int timeStep = (int) robot->getBasicTimeStep();
 
 	NTWorldTelemetry worldTelemetry;
-	std::vector < NTMotor > motors;
+	std::vector <std::shared_ptr<NTController>> controllers;
 	nlohmann::json j;
 
 	for (int i = 1; i < argc; i++) {
 		try {
 			j = nlohmann::json::parse(argv[i]);
-
-			if (j.at("type") == "motor") {
+			std::string type = j.at("type");
+			if (type == "motor") {
 				NTMotor::Config conf = j.at("value").template get<
 						NTMotor::Config>();
-				motors.emplace_back(robot, conf);
+				controllers.emplace_back(std::make_shared<NTMotor>(robot, conf));
+			}else if(type == "cancoder") {
+				NTCANCoder::Config conf = j.at("value").template get<
+						NTCANCoder::Config>();
+				controllers.emplace_back(std::make_shared<NTCANCoder>(robot, conf));
 			}
 		} catch (const std::exception &e) {
 			std::cerr << e.what() << std::endl;
 		}
-
 	}
 
 	bool initialized = false;
@@ -45,13 +50,13 @@ int main(int argc, char **argv) {
 		worldTelemetry.Update(t);
 
 		if (!initialized) {
-			for (auto &motor : motors) {
-				motor.Init();
+			for (auto &controller : controllers) {
+				controller->Init();
 			}
 			initialized = true;
 		} else {
-			for (auto &motor : motors) {
-				motor.Update();
+			for (auto &controller : controllers) {
+				controller->Update();
 			}
 		}
 
