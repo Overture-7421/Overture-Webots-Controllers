@@ -1,4 +1,5 @@
 #include "NTMotor.h"
+#include <sstream>
 
 NTMotor::NTMotor(Robot *robot, const NTMotor::Config &config) {
 	std::string modelName = robot->getName();

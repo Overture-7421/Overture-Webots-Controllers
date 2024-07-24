@@ -1,6 +1,7 @@
 #include <webots/Robot.hpp>
 #include <networktables/NetworkTableInstance.h>
 #include <nlohmann/json.hpp>
+#include <sstream>
 #include "NTMotor/NTMotor.h"
 #include "NTWorldTelemetry/NTWorldTelemetry.h"
 
