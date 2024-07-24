@@ -1,0 +1,89 @@
+plugins {
+    id 'cpp'
+    id 'edu.wpi.first.wpilib.repositories.WPILibRepositoriesPlugin' version '2020.2'
+    id 'edu.wpi.first.NativeUtils' version '2024.7.2'
+    id 'edu.wpi.first.GradleJni' version '1.1.0'
+    id 'edu.wpi.first.GradleVsCode' version '2.1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+// Add tasks to download and extract the tar.bz2 file
+def webotsHome = System.getenv('WEBOTS_HOME')
+
+wpilibRepositories.addAllReleaseRepositories(project)
+wpilibRepositories.addAllDevelopmentRepositories(project)
+
+apply from: 'config.gradle'
+
+// Set up exports properly
+nativeUtils {
+    exportsConfigs {
+        // Main library is just default empty. This will export everything
+        OvertureLib {
+        }
+    }
+}
+
+model {
+    components {
+        WebotsLibrary(NativeLibrarySpec) {
+            binaries.all {
+                def webotsLibraryDir = "${webotsHome}/lib/controller"
+                def targetPlatform = targetPlatform.name.toLowerCase()
+                if(targetPlatform.contains('windows')){
+                    cppCompiler.args "/wd4090", "/wd4723"
+                    linker.args "/LIBPATH:${webotsLibraryDir}", 'controller.lib'
+                }else{
+                    cppCompiler.args "-Wno-error=ignored-qualifiers", "-Wno-error=array-parameter"
+                    linker.args "-L${webotsLibraryDir}", '-lController', '-lCppController'
+                }
+            }
+
+            sources {
+                cpp {
+                    source {
+                        srcDirs  "${webotsHome}/src/controller/cpp"
+                        include '**/*.cpp'
+                    }
+                    exportedHeaders {
+                        srcDirs "${webotsHome}/include/controller/c"
+                        srcDirs "${webotsHome}/include/controller/cpp"
+                    }
+                }
+            }
+        }
+
+        nt_robot_controller(NativeExecutableSpec) {
+            binaries.all {
+                cppCompiler.define('_USE_MATH_DEFINES')
+                lib library: 'WebotsLibrary', linkage: 'static'
+
+                def webotsLibraryDir = "${webotsHome}/lib/controller"
+                def targetPlatform = targetPlatform.name.toLowerCase()
+                if(targetPlatform.contains('windows')){
+                    cppCompiler.args "/wd4090", "/wd4723"
+                    linker.args "/LIBPATH:${webotsLibraryDir}", 'controller.lib'
+                }else{
+                    cppCompiler.args "-Wno-error=ignored-qualifiers", "-Wno-error=array-parameter"
+                    linker.args "-L${webotsLibraryDir}", '-lController', '-lCppController'
+                }
+            }
+
+            sources.cpp {
+                source {
+                    srcDir 'src/nt_robot_controller'
+                    include '**/*.cpp', '**/*.cc'
+                }
+                exportedHeaders {
+                    srcDir 'src/nt_robot_controller'
+                }
+            }
+
+            nativeUtils.useRequiredLibrary(it, 'wpilib_static')
+        }
+    }
+}
