@@ -38,7 +38,7 @@ model {
 
                 if(targetPlatform.contains('windows')){
                     cppCompiler.args "/wd4090", "/wd4723", "/O2"
-                    linker.args "/LIBPATH:${webotsHome}/lib/msys", 'Controller.lib', 'car.lib', 'driver.lib', "/MANIFEST", "/LTCG:incremental", "/NXCOMPAT"
+                    linker.args "/LIBPATH:${webotsHome}/lib/msys", 'Controller.lib', 'car.lib', 'driver.lib'
                 } else if (targetPlatform.contains('osx')) {
                     cppCompiler.args "-Wno-error=ignored-qualifiers", "-Wno-error=array-parameter", "-O2"
                     linker.args "-L${webotsHome}/lib/darwin20", '-lController', '-lCppController', '-lCppCar', '-lCppDriver'

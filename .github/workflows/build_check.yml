@@ -29,7 +29,7 @@ jobs:
           architecture: ${{ matrix.architecture }}
 
       - name: Build with Gradle
-        run: ./gradlew nt_robot_controllerReleaseExecutable -PreleaseMode 
+        run: ./gradlew nt_robot_controllerReleaseExecutable
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -57,6 +57,7 @@ jobs:
       - name: Transfer executables
         run: |
           mkdir -p Overture-Webots/controllers/nt_robot_controller/
+          rm Overture-Webots/controllers/nt_robot_controller/*
           find executables -type f -exec mv -i '{}' Overture-Webots/controllers/nt_robot_controller/ ';'
       - name: Commit
         run: |
