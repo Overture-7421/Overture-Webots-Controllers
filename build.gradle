@@ -13,7 +13,7 @@ repositories {
 
 
 // Add tasks to download and extract the tar.bz2 file
-def webotsHome = System.getenv('WEBOTS_HOME')
+def webotsHome = "webots-libcontroller-R2023b/"
 
 wpilibRepositories.addAllReleaseRepositories(project)
 wpilibRepositories.addAllDevelopmentRepositories(project)
@@ -33,26 +33,26 @@ model {
     components {
         WebotsLibrary(NativeLibrarySpec) {
             binaries.all {
-                def webotsLibraryDir = "${webotsHome}/lib/controller"
                 def targetPlatform = targetPlatform.name.toLowerCase()
+
                 if(targetPlatform.contains('windows')){
                     cppCompiler.args "/wd4090", "/wd4723"
-                    linker.args "/LIBPATH:${webotsLibraryDir}", 'controller.lib'
+                    linker.args "/LIBPATH:${webotsHome}/lib/msys", 'controller.lib', 'car.lib', 'driver.lib'
                 }else{
                     cppCompiler.args "-Wno-error=ignored-qualifiers", "-Wno-error=array-parameter"
-                    linker.args "-L${webotsLibraryDir}", '-lController', '-lCppController'
+                    linker.args "-L${webotsHome}/lib/linux-gnu", '-lController', '-lCppController', '-lCppCar', '-lCppDriver'
                 }
             }
 
             sources {
                 cpp {
                     source {
-                        srcDirs  "${webotsHome}/src/controller/cpp"
+                        srcDirs  "${webotsHome}/source/cpp"
                         include '**/*.cpp'
                     }
                     exportedHeaders {
-                        srcDirs "${webotsHome}/include/controller/c"
-                        srcDirs "${webotsHome}/include/controller/cpp"
+                        srcDirs "${webotsHome}/include/c"
+                        srcDirs "${webotsHome}/include/cpp"
                     }
                 }
             }
@@ -63,14 +63,14 @@ model {
                 cppCompiler.define('_USE_MATH_DEFINES')
                 lib library: 'WebotsLibrary', linkage: 'static'
 
-                def webotsLibraryDir = "${webotsHome}/lib/controller"
                 def targetPlatform = targetPlatform.name.toLowerCase()
+
                 if(targetPlatform.contains('windows')){
                     cppCompiler.args "/wd4090", "/wd4723"
-                    linker.args "/LIBPATH:${webotsLibraryDir}", 'controller.lib'
+                    linker.args "/LIBPATH:${webotsHome}/lib/msys", 'controller.lib', 'car.lib', 'driver.lib'
                 }else{
                     cppCompiler.args "-Wno-error=ignored-qualifiers", "-Wno-error=array-parameter"
-                    linker.args "-L${webotsLibraryDir}", '-lController', '-lCppController'
+                    linker.args "-L${webotsHome}/lib/linux-gnu", '-lController', '-lCppController', '-lCppCar', '-lCppDriver'
                 }
             }
 
