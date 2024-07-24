@@ -33,3 +33,18 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew nt_robot_controllerReleaseExecutable
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact-name }}
+          path: build/exe/nt_robot_controller/release
+
+  combine:
+    name: Combine
+    needs: [build-host]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: combiner/executables
