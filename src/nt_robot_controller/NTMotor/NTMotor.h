@@ -13,7 +13,7 @@
 
 using namespace webots;
 
-class NTMotor : public NTController{
+class NTMotor: public NTController {
 public:
 	struct Config {
 		std::string Name;

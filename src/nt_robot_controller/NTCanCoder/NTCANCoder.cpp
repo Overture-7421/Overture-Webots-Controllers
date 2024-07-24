@@ -6,15 +6,18 @@ NTCANCoder::NTCANCoder(Robot *robot, const Config &config) {
 	inverted = config.Inverted;
 	timeStep = robot->getBasicTimeStep();
 
-	if(sensor == nullptr) {
-		throw std::runtime_error("CanCoder with name \"" + config.Name + "\" was not found!!!");
+	if (sensor == nullptr) {
+		throw std::runtime_error(
+				"CanCoder with name \"" + config.Name + "\" was not found!!!");
 	}
 
 	ntInst = nt::NetworkTableInstance::GetDefault();
 
-	const auto ntable = ntInst.GetTable(robot->getName())->GetSubTable("cancoders")->GetSubTable(config.Name);
+	const auto ntable = ntInst.GetTable(robot->getName())->GetSubTable(
+			"cancoders")->GetSubTable(config.Name);
 	encoderSpeedEntry = ntable->GetDoubleTopic("cancoder_speed").Publish();
-	encoderPositionEntry = ntable->GetDoubleTopic("cancoder_position").Publish();
+	encoderPositionEntry =
+			ntable->GetDoubleTopic("cancoder_position").Publish();
 
 	encoderSpeedEntry.Set(0);
 	encoderPositionEntry.Set(0);
@@ -26,12 +29,11 @@ void NTCANCoder::Init() {
 }
 
 void NTCANCoder::Update() {
-	double sensorPosition = sensor->getValue() / ( 2.0 * M_PI);
+	double sensorPosition = sensor->getValue() / (2.0 * M_PI);
 
-	if(inverted) {
+	if (inverted) {
 		sensorPosition *= -1;
 	}
-
 
 	encoderPositionEntry.Set(sensorPosition);
 
@@ -42,8 +44,7 @@ void NTCANCoder::Update() {
 }
 
 void to_json(nlohmann::json &j, const NTCANCoder::Config &c) {
-	j =
-			nlohmann::json { { "name", c.Name }, { "inverted", c.Inverted }};
+	j = nlohmann::json { { "name", c.Name }, { "inverted", c.Inverted } };
 }
 
 void from_json(const nlohmann::json &j, NTCANCoder::Config &c) {

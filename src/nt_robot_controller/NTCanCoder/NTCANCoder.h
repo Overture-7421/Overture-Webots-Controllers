@@ -20,7 +20,7 @@ public:
 	void Init() override;
 	void Update() override;
 private:
-	PositionSensor* sensor;
+	PositionSensor *sensor;
 	nt::NetworkTableInstance ntInst;
 	nt::DoublePublisher encoderSpeedEntry, encoderPositionEntry;
 	double lastPos = 0;

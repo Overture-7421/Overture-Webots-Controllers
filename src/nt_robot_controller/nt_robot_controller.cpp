@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
 	int timeStep = (int) robot->getBasicTimeStep();
 
 	NTWorldTelemetry worldTelemetry;
-	std::vector <std::shared_ptr<NTController>> controllers;
+	std::vector < std::shared_ptr < NTController >> controllers;
 	nlohmann::json j;
 
 	for (int i = 1; i < argc; i++) {
@@ -32,15 +32,18 @@ int main(int argc, char **argv) {
 			if (type == "motor") {
 				NTMotor::Config conf = j.at("value").template get<
 						NTMotor::Config>();
-				controllers.emplace_back(std::make_shared<NTMotor>(robot, conf));
-			}else if(type == "cancoder") {
+				controllers.emplace_back(
+						std::make_shared < NTMotor > (robot, conf));
+			} else if (type == "cancoder") {
 				NTCANCoder::Config conf = j.at("value").template get<
 						NTCANCoder::Config>();
-				controllers.emplace_back(std::make_shared<NTCANCoder>(robot, conf));
-			}else if(type == "imu") {
-				NTIMU::Config conf = j.at("value").template get<
-						NTIMU::Config>();
-				controllers.emplace_back(std::make_shared<NTIMU>(robot, conf));
+				controllers.emplace_back(
+						std::make_shared < NTCANCoder > (robot, conf));
+			} else if (type == "imu") {
+				NTIMU::Config conf =
+						j.at("value").template get<NTIMU::Config>();
+				controllers.emplace_back(
+						std::make_shared < NTIMU > (robot, conf));
 			}
 		} catch (const std::exception &e) {
 			std::cerr << e.what() << std::endl;

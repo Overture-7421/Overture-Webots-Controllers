@@ -9,20 +9,20 @@
 
 using namespace webots;
 
-class NTIMU : public NTController {
-    public:
+class NTIMU: public NTController {
+public:
 	struct Config {
 		std::string Name;
 	};
 
-    NTIMU(Robot* robot, const Config &config);
-    void Init() override;
-    void Update() override;
+	NTIMU(Robot *robot, const Config &config);
+	void Init() override;
+	void Update() override;
 
-    private:
-        InertialUnit* imuSensor = nullptr;
-        nt::NetworkTableInstance ntInst;
-        nt::DoublePublisher rollPub, pitchPub, yawPub;
+private:
+	InertialUnit *imuSensor = nullptr;
+	nt::NetworkTableInstance ntInst;
+	nt::DoublePublisher rollPub, pitchPub, yawPub;
 };
 
 void to_json(nlohmann::json &j, const NTIMU::Config &c);
