@@ -14,9 +14,6 @@ jobs:
           - os: macos-latest
             artifact-name: macOS
             architecture: x64
-          - os: ubuntu-latest
-            artifact-name: linux
-            architecture: x64
     name: "Build - ${{ matrix.artifact-name }}"
     runs-on: ${{ matrix.os }}
     steps:
@@ -59,6 +56,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
       - name: Transfer executables
         run: |
+          mkdir -p Overture-Webots/controllers/nt_robot_controller/
           find executables -type f -exec mv -i '{}' Overture-Webots/controllers/nt_robot_controller/ ';'
       - name: Commit
         run: |
