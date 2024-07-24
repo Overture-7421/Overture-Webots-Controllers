@@ -34,13 +34,11 @@ model {
         WebotsLibrary(NativeLibrarySpec) {
             binaries.all {
                 def targetPlatform = targetPlatform.name.toLowerCase()
-                print "----------------------------------------------------------"
-                print targetPlatform
-                print "=========================================================="
+
                 if(targetPlatform.contains('windows')){
                     cppCompiler.args "/wd4090", "/wd4723"
                     linker.args "/LIBPATH:${webotsHome}/lib/msys", 'controller.lib', 'car.lib', 'driver.lib'
-                } else if (targetPlatform.contains('macOS')) {
+                } else if (targetPlatform.contains('osx')) {
                     cppCompiler.args "-Wno-error=ignored-qualifiers", "-Wno-error=array-parameter"
                     linker.args "-L${webotsHome}/lib/darwin20", '-lController', '-lCppController', '-lCppCar', '-lCppDriver'
                 }else {
@@ -73,7 +71,7 @@ model {
                 if(targetPlatform.contains('windows')){
                     cppCompiler.args "/wd4090", "/wd4723"
                     linker.args "/LIBPATH:${webotsHome}/lib/msys", 'controller.lib', 'car.lib', 'driver.lib'
-                } else if (targetPlatform.contains('macos')) {
+                } else if (targetPlatform.contains('osx')) {
                     cppCompiler.args "-Wno-error=ignored-qualifiers", "-Wno-error=array-parameter"
                     linker.args "-L${webotsHome}/lib/darwin20", '-lController', '-lCppController', '-lCppCar', '-lCppDriver'
                 }else {
