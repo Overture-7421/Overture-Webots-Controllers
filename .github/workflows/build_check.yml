@@ -31,8 +31,5 @@ jobs:
           java-version: 21
           architecture: ${{ matrix.architecture }}
 
-      - name: Spotless Apply
-        run : ./gradlew spotlessApply
-
       - name: Build with Gradle
         run: ./gradlew build -Pbuildalldesktop -PreleaseMode 

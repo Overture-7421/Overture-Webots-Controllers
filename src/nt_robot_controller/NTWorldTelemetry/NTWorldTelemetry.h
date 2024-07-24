@@ -9,11 +9,11 @@ using namespace webots;
 
 class NTWorldTelemetry {
 public:
-    NTWorldTelemetry();
+	NTWorldTelemetry();
 
-    void Update(double simulationTime);
+	void Update(double simulationTime);
 
 private:
-    nt::NetworkTableInstance ntInst;
-    nt::DoublePublisher simTimeEntry;
+	nt::NetworkTableInstance ntInst;
+	nt::DoublePublisher simTimeEntry;
 };
