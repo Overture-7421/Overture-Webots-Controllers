@@ -7,21 +7,21 @@
 
 using namespace webots;
 
-class LinkedJoint : public NTController {
+class LinkedJoint: public NTController {
 public:
-    struct Config {
-        std::string SourceMotorName;
-        std::string TargetMotorName;
-        bool Inverted;
-    };
-    LinkedJoint(Robot* robot, const Config &config);
+	struct Config {
+		std::string SourceMotorName;
+		std::string TargetMotorName;
+		bool Inverted;
+	};
+	LinkedJoint(Robot *robot, const Config &config);
 
-    void Init() override;
-    void Update() override;
+	void Init() override;
+	void Update() override;
 private:
-    Motor* sourceMotor = nullptr;
-    Motor* targetMotor = nullptr;
-    bool invert = false;
+	Motor *sourceMotor = nullptr;
+	Motor *targetMotor = nullptr;
+	bool invert = false;
 };
 
 void to_json(nlohmann::json &j, const LinkedJoint::Config &c);
