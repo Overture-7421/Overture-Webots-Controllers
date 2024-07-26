@@ -18,8 +18,7 @@ int main(int argc, char **argv) {
 	std::stringstream ntIdentity;
 	ntIdentity << "nt_webots_controller";
 	ntInst.StartClient4(ntIdentity.str());
-
-	int timeStep = (int) robot->getBasicTimeStep();
+	double timeStep = robot->getBasicTimeStep();
 
 	NTWorldTelemetry worldTelemetry;
 	std::vector < std::shared_ptr < NTController >> controllers;
@@ -52,8 +51,9 @@ int main(int argc, char **argv) {
 
 	bool initialized = false;
 	double t = 0.0;
+	robot->step((int) timeStep * 2);
 
-	while (robot->step(timeStep) != -1) {
+	while (robot->step((int) timeStep) != -1) {
 
 		worldTelemetry.Update(t);
 
@@ -69,6 +69,7 @@ int main(int argc, char **argv) {
 		}
 
 		t += (double) timeStep / 1000.0;
+		ntInst.Flush();
 	}
 
 	delete robot;

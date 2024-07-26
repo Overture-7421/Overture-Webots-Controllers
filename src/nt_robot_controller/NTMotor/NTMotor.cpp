@@ -65,11 +65,11 @@ NTMotor::NTMotor(Robot *robot, const NTMotor::Config &config) {
 		throw std::runtime_error("Didnt get a position sensor");
 	}
 
-	posSensor->enable(robot->getBasicTimeStep() / 2.0);
+	posSensor->enable(robot->getBasicTimeStep());
 }
 
 void NTMotor::Init() {
-	initialPos = posSensor->getValue();
+	initialPos = posSensor->getValue() / (2.0 * M_PI);
 }
 
 void NTMotor::Update() {

@@ -21,7 +21,7 @@ NTCANCoder::NTCANCoder(Robot *robot, const Config &config) {
 
 	encoderSpeedEntry.Set(0);
 	encoderPositionEntry.Set(0);
-	sensor->enable(robot->getBasicTimeStep() / 2.0);
+	sensor->enable(robot->getBasicTimeStep());
 }
 
 void NTCANCoder::Init() {

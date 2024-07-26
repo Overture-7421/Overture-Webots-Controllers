@@ -15,7 +15,7 @@ NTIMU::NTIMU(Robot *robot, const Config &config) {
 	rollPub = ntable->GetDoubleTopic("roll").Publish();
 	pitchPub = ntable->GetDoubleTopic("pitch").Publish();
 	yawPub = ntable->GetDoubleTopic("yaw").Publish();
-	imuSensor->enable(robot->getBasicTimeStep() / 2.0);
+	imuSensor->enable(robot->getBasicTimeStep());
 }
 
 void NTIMU::Init() {
