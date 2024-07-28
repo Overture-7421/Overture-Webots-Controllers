@@ -2,7 +2,7 @@
 #include <networktables/NetworkTableInstance.h>
 #include <nlohmann/json.hpp>
 #include <sstream>
-#include "NTController.h"
+#include "NTController/NTController.h"
 #include "NTMotor/NTMotor.h"
 #include "NTCanCoder/NTCANCoder.h"
 #include "NTIMU/NTIMU.h"
@@ -18,7 +18,8 @@ int main(int argc, char **argv) {
 	std::stringstream ntIdentity;
 	ntIdentity << "nt_webots_controller";
 	ntInst.StartClient4(ntIdentity.str());
-	double timeStep = robot->getBasicTimeStep();
+
+	NTController::SetTimeStep(robot);
 
 	NTWorldTelemetry worldTelemetry;
 	std::vector < std::shared_ptr < NTController >> controllers;
@@ -51,9 +52,8 @@ int main(int argc, char **argv) {
 
 	bool initialized = false;
 	double t = 0.0;
-	robot->step((int) timeStep * 2);
 
-	while (robot->step((int) timeStep) != -1) {
+	while (robot->step((int) robot->getBasicTimeStep()) != -1) {
 
 		worldTelemetry.Update(t);
 
@@ -68,7 +68,7 @@ int main(int argc, char **argv) {
 			}
 		}
 
-		t += (double) timeStep / 1000.0;
+		t += NTController::GetTimeStepSeconds();
 		ntInst.Flush();
 	}
 

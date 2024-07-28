@@ -6,7 +6,7 @@
 #include <webots/PositionSensor.hpp>
 #include <webots/Robot.hpp>
 #include <nlohmann/json.hpp>
-#include "../NTController.h"
+#include "NTController/NTController.h"
 using namespace webots;
 
 class NTCANCoder: public NTController {
@@ -25,7 +25,6 @@ private:
 	nt::DoublePublisher encoderSpeedEntry, encoderPositionEntry;
 	double lastPos = 0;
 	bool inverted = false;
-	double timeStep;
 };
 
 void to_json(nlohmann::json &j, const NTCANCoder::Config &c);

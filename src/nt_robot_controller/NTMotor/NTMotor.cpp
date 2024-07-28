@@ -11,8 +11,6 @@ NTMotor::NTMotor(Robot *robot, const NTMotor::Config &config) {
 				"Motor with name \"" + config.Name + "\" was not found!!!");
 	}
 
-	timeStep = robot->getBasicTimeStep();
-
 	if (config.Model == "Kraken") {
 		motorModel = frc::DCMotor::KrakenX60(motor_count);
 	} else if (config.Model == "NEO") {
@@ -76,7 +74,8 @@ void NTMotor::Update() {
 	double jointTurns = (posSensor->getValue() - initialPos) / (2.0 * M_PI);
 	auto appliedVoltage = units::volt_t(voltageEntry.Get());
 
-	double jointTurnsPerS = (jointTurns - lastPos) / timeStep;
+	double jointTurnsPerS = (jointTurns - lastPos)
+			/ NTController::GetTimeStepSeconds();
 	lastPos = jointTurns;
 
 	if (mechanically_inverted) {

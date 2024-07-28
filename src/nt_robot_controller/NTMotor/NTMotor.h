@@ -9,7 +9,7 @@
 #include <webots/PositionSensor.hpp>
 #include <webots/Robot.hpp>
 #include <nlohmann/json.hpp>
-#include "../NTController.h"
+#include "NTController/NTController.h"
 
 using namespace webots;
 
@@ -32,7 +32,6 @@ private:
 	Motor *motor;
 	PositionSensor *posSensor;
 	nt::NetworkTableInstance ntInst;
-	double timeStep;
 
 	nt::DoublePublisher encoderSpeedEntry, encoderPositionEntry, currentEntry,
 			torqueAppliedEntry;

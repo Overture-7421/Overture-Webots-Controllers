@@ -3,7 +3,7 @@
 #include <webots/Motor.hpp>
 #include <webots/Robot.hpp>
 #include <nlohmann/json.hpp>
-#include "NTController.h"
+#include "NTController/NTController.h"
 
 using namespace webots;
 

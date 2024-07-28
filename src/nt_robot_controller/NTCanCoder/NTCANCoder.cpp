@@ -4,7 +4,6 @@
 NTCANCoder::NTCANCoder(Robot *robot, const Config &config) {
 	sensor = robot->getPositionSensor(config.Name);
 	inverted = config.Inverted;
-	timeStep = robot->getBasicTimeStep();
 
 	if (sensor == nullptr) {
 		throw std::runtime_error(
@@ -37,7 +36,8 @@ void NTCANCoder::Update() {
 
 	encoderPositionEntry.Set(sensorPosition);
 
-	double encoderSpeed = (sensorPosition - lastPos) / timeStep;
+	double encoderSpeed = (sensorPosition - lastPos)
+			/ NTController::GetTimeStepSeconds();
 	lastPos = sensorPosition;
 
 	encoderSpeedEntry.Set(encoderSpeed);

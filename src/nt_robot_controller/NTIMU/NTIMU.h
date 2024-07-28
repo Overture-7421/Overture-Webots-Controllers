@@ -5,7 +5,7 @@
 
 #include <webots/InertialUnit.hpp>
 #include <webots/Robot.hpp>
-#include "../NTController.h"
+#include "NTController/NTController.h"
 
 using namespace webots;
 
