@@ -63,8 +63,8 @@ model {
             }
 
             nativeUtils.useRequiredLibrary(it, 'wpilib_static')
-            nativeUtils. useRequiredLibrary(it, "opencv_shared")
-            nativeUtils.useRequiredLibrary(it, "cscore_shared")
+            nativeUtils. useRequiredLibrary(it, "opencv_static")
+            nativeUtils.useRequiredLibrary(it, "cscore_static")
             nativeUtils. useRequiredLibrary(it, "cameraserver_static")
         }
     }
