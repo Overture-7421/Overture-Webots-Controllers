@@ -1,21 +1,13 @@
 #include "NTCamera.h"
-#include <webots/Camera.hpp>
-#include <iostream>
-#include <sstream>
 
-void process_image(const unsigned char *image, int length, int width,
-		int height) {
-	Mat img = Mat(Size(width, height), CV_8UC4);
-	img.data = const_cast<uchar*>(image);
-}
+#include <opencv2/core.hpp>
 
-NTCamera::NTCamera(Robot *robot, const Config &config) {
-	camera = robot->getCamera("Frontal Camera");
+NTCamera::NTCamera(webots::Robot *robot, const Config &config) {
+	camera = robot->getCamera(config.Name);
 
 	if (camera == nullptr) {
 		throw std::runtime_error(
 				"Camera with name \"" + config.Name + "\" was not found!!!");
-
 	}
 
 	ntInst = nt::NetworkTableInstance::GetDefault();
@@ -24,19 +16,33 @@ NTCamera::NTCamera(Robot *robot, const Config &config) {
 	width = camera->getWidth();
 	height = camera->getHeight();
 
+	// Initialize the cvSource
+	cvSource = cs::CvSource(config.Name, cs::VideoMode::kMJPEG, width, height,
+			30);
+
+	// Initialize the camera server
+	mjpegServer = cs::MjpegServer(config.Name, 5800);
+	mjpegServer.SetSource(cvSource);
+
+	frc::CameraServer::AddServer (mjpegServer);
+	cvSource = frc::CameraServer::PutVideo(config.Name, width, height);
+
 }
 
 void NTCamera::Init() {
 }
 
 void NTCamera::Update() {
-
 	const unsigned char *image = camera->getImage();
+	if (image == nullptr) {
+		cout << "No image available" << endl;
+		return;
+	}
 
-	/* Variables for the display */
-	int length = 4 * width * height * sizeof(unsigned char);
+	Mat img = Mat(Size(width, height), CV_8UC4);
+	img.data = const_cast<uchar*>(image);
 
-	process_image(image, length, width, height);
+	cvSource.PutFrame(img);
 
 }
 

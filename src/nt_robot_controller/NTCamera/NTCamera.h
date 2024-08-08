@@ -1,22 +1,24 @@
 #include <stdio.h>
-#include <networktables/NetworkTableInstance.h>
-#include <networktables/DoubleTopic.h>
-#include <webots/Robot.hpp>
-#include <nlohmann/json.hpp>
+
 #include "NTController/NTController.h"
+#include <iostream>
+#include <networktables/NetworkTableInstance.h>
+#include <ntcore.h>
+#include <webots/Robot.hpp>
 #include <webots/Camera.hpp>
-#include <opencv2/core/core.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
+#include <nlohmann/json.hpp>
+#include <cscore_cv.h>
+#include <cameraserver/CameraServer.h>
 
 using namespace webots;
 using namespace cv;
+using namespace std;
 
 class NTCamera: public NTController {
 
 public:
 	struct Config {
 		std::string Name;
-		bool Inverted;
 	};
 
 	NTCamera(Robot *robot, const Config &config);
@@ -30,6 +32,8 @@ private:
 	int width;
 	int height;
 	unsigned char *processed_image;
+	cs::CvSource cvSource;
+	cs::MjpegServer mjpegServer;
 
 };
 
