@@ -19,6 +19,7 @@ class NTCamera: public NTController {
 public:
 	struct Config {
 		std::string Name;
+		int Port;
 	};
 
 	NTCamera(Robot *robot, const Config &config);
