@@ -23,6 +23,9 @@ NTCamera::NTCamera(webots::Robot *robot, const Config &config) {
 	// Initialize the camera server
 	mjpegServer = cs::MjpegServer(config.Name, config.Port);
 	mjpegServer.SetSource(cvSource);
+
+	cout << "INFO: The camera \"" << config.Name << "\" is located on the URL: "
+			<< " http://localhost:" << config.Port << "/stream.mjpg" << endl;
 }
 
 void NTCamera::Init() {
