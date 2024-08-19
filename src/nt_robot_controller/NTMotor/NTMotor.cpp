@@ -86,7 +86,7 @@ void NTMotor::Update() {
 			units::radians_per_second_t(jointTurnsPerS * 2.0 * M_PI * 0.001),
 			appliedVoltage);
 
-	auto torqueGenerated = motorModel.Torque(current);
+	auto torqueGenerated = motorModel.Torque(current * 0.001);
 
 	double torqueToApply = torqueGenerated.value();
 
