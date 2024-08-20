@@ -86,7 +86,7 @@ void NTMotor::Update() {
 			units::radians_per_second_t(jointTurnsPerS * 2.0 * M_PI * 0.001),
 			appliedVoltage);
 
-	auto torqueGenerated = motorModel.Torque(current * 0.001);
+	auto torqueGenerated = motorModel.Torque(current);
 
 	double torqueToApply = torqueGenerated.value();
 
@@ -105,7 +105,7 @@ void NTMotor::Update() {
 	encoderSpeedEntry.Set(encoderSpeed);
 
 	torqueAppliedEntry.Set(torqueToApply);
-	currentEntry.Set(current.value());
+	currentEntry.Set(current.value() * 0.001);
 }
 
 void to_json(nlohmann::json &j, const NTMotor::Config &c) {
