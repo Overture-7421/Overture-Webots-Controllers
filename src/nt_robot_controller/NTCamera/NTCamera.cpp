@@ -25,7 +25,9 @@ NTCamera::NTCamera(webots::Robot *robot, const Config &config) {
 	mjpegServer.SetSource(cvSource);
 
 	cout << "INFO: The camera \"" << config.Name << "\" is located on the URL: "
-			<< " http://localhost:" << config.Port << "/stream.mjpg" << endl;
+			<< " http://127.0.0.1:" << config.Port << "/stream.mjpg" << endl;
+
+	// java -jar photonvision-dev-v2024.2.0-107-g6dbe8041-macx64.jar -net=http://127.0.0.1:5900/stream.mjpg 
 }
 
 void NTCamera::Init() {
