@@ -4,6 +4,7 @@
 NTCANCoder::NTCANCoder(Robot *robot, const Config &config) {
 	sensor = robot->getPositionSensor(config.Name);
 	inverted = config.Inverted;
+	offsetDeg = config.OffsetDeg;
 
 	if (sensor == nullptr) {
 		throw std::runtime_error(
@@ -29,6 +30,7 @@ void NTCANCoder::Init() {
 
 void NTCANCoder::Update() {
 	double sensorPosition = sensor->getValue() / (2.0 * M_PI);
+	sensorPosition -= offsetDeg / 360.0;
 
 	if (inverted) {
 		sensorPosition *= -1;
@@ -44,10 +46,12 @@ void NTCANCoder::Update() {
 }
 
 void to_json(nlohmann::json &j, const NTCANCoder::Config &c) {
-	j = nlohmann::json { { "name", c.Name }, { "inverted", c.Inverted } };
+	j = nlohmann::json { { "name", c.Name }, { "inverted", c.Inverted }, {
+			"offsetDeg", c.OffsetDeg } };
 }
 
 void from_json(const nlohmann::json &j, NTCANCoder::Config &c) {
 	j.at("name").get_to(c.Name);
 	j.at("inverted").get_to(c.Inverted);
+	j.at("offsetDeg").get_to(c.OffsetDeg);
 }

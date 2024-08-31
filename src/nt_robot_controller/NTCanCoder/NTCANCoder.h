@@ -14,6 +14,7 @@ public:
 	struct Config {
 		std::string Name;
 		bool Inverted;
+		double OffsetDeg;
 	};
 
 	NTCANCoder(Robot *robot, const Config &config);
@@ -25,6 +26,7 @@ private:
 	nt::DoublePublisher encoderSpeedEntry, encoderPositionEntry;
 	double lastPos = 0;
 	bool inverted = false;
+	double offsetDeg = 0;
 };
 
 void to_json(nlohmann::json &j, const NTCANCoder::Config &c);
