@@ -5,6 +5,7 @@
 #include "NTController/NTController.h"
 #include "NTMotor/NTMotor.h"
 #include "NTCanCoder/NTCANCoder.h"
+#include "NTServo/NTServo.h"
 #include "NTIMU/NTIMU.h"
 #include <NTCamera/NTCamera.h>
 #include "NTWorldTelemetry/NTWorldTelemetry.h"
@@ -50,7 +51,15 @@ int main(int argc, char **argv) {
 						NTCamera::Config>();
 				controllers.emplace_back(
 						std::make_shared < NTCamera > (robot, conf));
+			} else if (type == "servo") {
+				NTServo::Config conf = j.at("value").template get<
+						NTServo::Config>();
+				controllers.emplace_back(
+						std::make_shared < NTServo > (robot, conf));
+			} else {
+				std::cerr << "Unknown controller type: " << type << std::endl;
 			}
+
 		} catch (const std::exception &e) {
 			std::cerr << e.what() << std::endl;
 		}

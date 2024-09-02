@@ -34,7 +34,7 @@ private:
 	nt::NetworkTableInstance ntInst;
 
 	nt::DoublePublisher encoderSpeedEntry, encoderPositionEntry, currentEntry,
-			torqueAppliedEntry;
+			torqueAppliedEntry, targetPositionEntry;
 	nt::DoubleSubscriber voltageEntry;
 	nt::BooleanSubscriber invertedEntry;
 
