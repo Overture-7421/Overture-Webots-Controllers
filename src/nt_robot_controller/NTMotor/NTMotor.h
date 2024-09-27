@@ -22,11 +22,14 @@ public:
 		double GearRatio;
 		int MotorCount;
 		bool MechanicallyInverted;
+		std::optional<double> WinchRadius;
 	};
 
 	NTMotor(Robot *robot, const Config &config);
 	void Init() override;
 	void Update() override;
+	void UpdateRotational(double motorTorque);
+	void UpdateLinear(double motorTorque);
 private:
 	frc::DCMotor motorModel = frc::DCMotor(0_V, 0_Nm, 0_A, 0_A, 0_rad_per_s);
 	Motor *motor;
@@ -45,6 +48,10 @@ private:
 	double gear_ratio = 1.0;
 	int motor_count = 1;
 	bool mechanically_inverted = false;
+	double winch_radius = 0;
+	double winch_circumference = 0;
+
+	std::function<void(double)> updateTypeFunction;
 };
 
 void to_json(nlohmann::json &j, const NTMotor::Config &c);
